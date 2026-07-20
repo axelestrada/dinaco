@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.zIndex
 import com.axelestrada.dinaco.components.FloatingToast
 import com.axelestrada.dinaco.components.TermsAgreement
@@ -46,25 +49,16 @@ fun LoginScreen() {
             Column {
                 Spacer(modifier = Modifier.height(40.dp))
 
-                Box(
-                    modifier = Modifier
-                        .size(42.dp)
-                        .border(4.dp, MaterialTheme.colorScheme.primary, CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(16.dp)
-                            .background(
-                                MaterialTheme.colorScheme.primary, CircleShape
-                            )
-                    )
-                }
+                Image(
+                    painter = painterResource(R.drawable.ic_dino),
+                    contentDescription = null,
+                    modifier = Modifier.size(42.dp)
+                )
 
                 Spacer(Modifier.height(32.dp))
 
                 Text(
-                    text = "El agua de tu hogar,\ninteligente.",
+                    text = "El agua de tu hogar, inteligente.",
                     color = Color.White,
                     fontSize = 38.sp,
                     lineHeight = 42.sp,
@@ -74,7 +68,7 @@ fun LoginScreen() {
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    text = "Monitoreo premium en tiempo real.",
+                    text = "Monitorea tus tinacos desde cualquier lugar.",
                     color = Color(0xFF8B8B8B),
                     fontSize = 18.sp
                 )
