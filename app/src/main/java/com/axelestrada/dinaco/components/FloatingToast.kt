@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,10 @@ fun FloatingToast(
     message: String, visible: Boolean, onDismiss: () -> Unit, modifier: Modifier = Modifier
 ) {
     val glassShape = RoundedCornerShape(50.dp)
+
+    val exitOffset = with(LocalDensity.current) {
+        56.dp.roundToPx()
+    }
 
     LaunchedEffect(visible) {
         if (visible) {
@@ -53,7 +58,7 @@ fun FloatingToast(
             )
         ),
         exit = slideOutVertically(
-            targetOffsetY = { -it }, animationSpec = spring(
+            targetOffsetY = { -it - exitOffset }, animationSpec = spring(
                 stiffness = Spring.StiffnessMedium
             )
         )

@@ -27,6 +27,7 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axelestrada.dinaco.R
+import com.axelestrada.dinaco.ui.theme.Typography
 
 @Composable
 fun TermsAgreement(
@@ -61,7 +62,6 @@ fun TermsAgreement(
                 "https://dinaco.app/privacy-policy", TextLinkStyles(
                     SpanStyle(
                         color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.Medium,
                         textDecoration = TextDecoration.None
                     )
                 )
@@ -97,7 +97,7 @@ fun TermsAgreement(
                 Image(
                     painter = painterResource(R.drawable.ic_check),
                     contentDescription = null,
-                    modifier = Modifier.size(14.dp)
+                    modifier = Modifier.size(12.dp)
                 )
             }
         }
@@ -110,9 +110,9 @@ fun TermsAgreement(
                 .clickable {
                     onCheckedChange(!checked)
                 },
-            style = TextStyle(
-                color = Color(0xFF8A8A93), fontSize = 14.sp, lineHeight = 18.sp
-            ),
+            style = Typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+
 
             )
 

@@ -3,9 +3,7 @@ package com.axelestrada.dinaco
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,12 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.draw.dropShadow
-import androidx.compose.ui.graphics.shadow.Shadow
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.zIndex
 import com.axelestrada.dinaco.components.FloatingToast
+import com.axelestrada.dinaco.components.SurfaceButton
 import com.axelestrada.dinaco.components.TermsAgreement
+import com.axelestrada.dinaco.ui.theme.Typography
 
 @Composable
 fun LoginScreen() {
@@ -55,22 +52,20 @@ fun LoginScreen() {
                     modifier = Modifier.size(42.dp)
                 )
 
-                Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(28.dp))
 
                 Text(
                     text = "El agua de tu hogar, inteligente.",
-                    color = Color.White,
-                    fontSize = 38.sp,
-                    lineHeight = 42.sp,
-                    fontWeight = FontWeight.Bold
+                    style = Typography.displayMedium,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
                     text = "Monitorea tus tinacos desde cualquier lugar.",
-                    color = Color(0xFF8B8B8B),
-                    fontSize = 18.sp
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = Typography.bodyLarge
                 )
             }
 
@@ -89,44 +84,20 @@ fun LoginScreen() {
                 )
 
 
-                Button(
-                    onClick = {
-
-                        if (!acceptedTerms) {
-                            showToast = true
-
-                            return@Button
-                        }
-
-                        // Aquí continúa login con Google
-
-                    },
+                SurfaceButton(
+                    text = "Continuar con Google",
+                    icon = R.drawable.ic_google,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0x08FFFFFF)
-                    ),
-                    border = BorderStroke(
-                        width = 1.dp, color = Color(0x0DFFFFFF)
-                    )
                 ) {
 
-                    Image(
-                        painter = painterResource(R.drawable.ic_google),
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
+                    if (!acceptedTerms) {
+                        showToast = true
+                        return@SurfaceButton
+                    }
 
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    Text(
-                        text = "Continuar con Google",
-                        color = Color.White,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 16.sp
-                    )
+                    // Login Google
                 }
             }
         }
