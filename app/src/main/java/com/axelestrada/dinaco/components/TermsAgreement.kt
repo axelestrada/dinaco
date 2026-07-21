@@ -112,8 +112,6 @@ fun TermsAgreement(
                 },
             style = Typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
-
-
             )
 
 
