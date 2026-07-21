@@ -49,7 +49,7 @@ fun LoginScreen() {
                 Image(
                     painter = painterResource(R.drawable.ic_dino),
                     contentDescription = null,
-                    modifier = Modifier.size(42.dp)
+                    modifier = Modifier.width(36.dp)
                 )
 
                 Spacer(Modifier.height(28.dp))

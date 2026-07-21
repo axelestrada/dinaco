@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.axelestrada.dinaco.R
+import com.axelestrada.dinaco.ui.theme.interFamily
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
@@ -66,10 +69,10 @@ fun FloatingToast(
         Row(
             modifier = Modifier
                 .background(
-                    color = Color(0xFF0F0F13), shape = glassShape
+                    color = MaterialTheme.colorScheme.surface, shape = glassShape
                 )
                 .border(
-                    width = 1.dp, color = Color(0x1AFFFFFF), shape = glassShape
+                    width = 1.dp, color = Color(0xFF252525), shape = glassShape
                 )
                 .padding(
                     horizontal = 16.dp, vertical = 10.dp
@@ -77,12 +80,12 @@ fun FloatingToast(
         ) {
 
 
-            Image(
+            Icon(
                 painter = painterResource(R.drawable.ic_circle_off),
                 contentDescription = null,
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(16.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
-
 
             Spacer(
                 modifier = Modifier.width(10.dp)
@@ -90,9 +93,10 @@ fun FloatingToast(
 
             Text(
                 text = message,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                fontFamily = interFamily
             )
 
         }

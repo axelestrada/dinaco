@@ -6,6 +6,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -38,28 +40,19 @@ fun SurfaceButton(
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
-    val selected = remember { mutableStateOf(false) }
-    val scale = animateFloatAsState(if (selected.value) 0.95f else 1f)
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+
+    val pressed by interactionSource.collectIsPressedAsState()
 
     Button(
         onClick = onClick,
         enabled = enabled,
         modifier = modifier
-            .scale(scale.value)
-            .pointerInteropFilter {
-                when (it.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        selected.value = true
-                    }
-
-                    MotionEvent.ACTION_UP,
-                    MotionEvent.ACTION_CANCEL -> {
-                        selected.value = false
-                    }
-                }
-                true
-            },
+            .scale(if (pressed) 0.95f else 1f),
         shape = RoundedCornerShape(18.dp),
+        interactionSource = interactionSource,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
