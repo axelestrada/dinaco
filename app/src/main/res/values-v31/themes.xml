@@ -3,7 +3,5 @@
 
     <style name="Theme.Dinaco" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowSplashScreenBackground">@color/splash_background</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_animated_splash</item>
-        <item name="android:windowSplashScreenAnimationDuration">700</item>
     </style>
 </resources>
