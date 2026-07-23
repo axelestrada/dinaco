@@ -65,7 +65,7 @@ fun LoginScreen() {
                 Text(
                     text = "Monitorea tus tinacos desde cualquier lugar.",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = Typography.bodyLarge
+                    style = Typography.bodyMedium
                 )
             }
 
