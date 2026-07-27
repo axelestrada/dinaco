@@ -1,6 +1,5 @@
 package com.axelestrada.dinaco
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,7 +27,7 @@ import com.axelestrada.dinaco.components.TermsAgreement
 import com.axelestrada.dinaco.ui.theme.Typography
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLoginSuccess: () -> Unit) {
     var acceptedTerms by remember { mutableStateOf(false) }
     var showToast by remember { mutableStateOf(false) }
 
@@ -97,7 +96,7 @@ fun LoginScreen() {
                         return@SurfaceButton
                     }
 
-                    // Login Google
+                    onLoginSuccess()
                 }
             }
         }

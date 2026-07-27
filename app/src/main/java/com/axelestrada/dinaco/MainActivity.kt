@@ -50,11 +50,13 @@ class MainActivity : ComponentActivity() {
         }
 
         enableEdgeToEdge()
+
         WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars =
             false
+
         setContent {
             DinacoTheme {
-                LoginScreen()
+                AppNavigation()
             }
         }
 
