@@ -5,7 +5,6 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
@@ -22,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -72,7 +70,7 @@ fun FloatingToast(
                     color = MaterialTheme.colorScheme.surface, shape = glassShape
                 )
                 .border(
-                    width = 1.dp, color = Color(0xFF252525), shape = glassShape
+                    width = 1.dp, color = MaterialTheme.colorScheme.outline, shape = glassShape
                 )
                 .padding(
                     horizontal = 16.dp, vertical = 10.dp

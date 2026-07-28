@@ -11,3 +11,5 @@ val CherryRed = Color(0xFFFF3D71)
 
 val GrayHint = Color(0xFFE6E6E6)
 val OsloGray = Color(0xFF9CA3AF)
+
+val ShinyBlack = Color(0xFF252525)
