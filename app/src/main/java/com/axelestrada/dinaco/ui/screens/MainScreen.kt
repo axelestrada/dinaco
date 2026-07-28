@@ -1,5 +1,7 @@
 package com.axelestrada.dinaco.ui.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -9,9 +11,14 @@ import androidx.compose.material.icons.filled.Devices
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
+import com.axelestrada.dinaco.R
 import com.axelestrada.dinaco.navigation.Destination
+import com.axelestrada.dinaco.ui.components.BottomBarItem
+import com.axelestrada.dinaco.ui.components.GlassBottomBar
 
 @Composable
 fun MainScreen() {
@@ -19,29 +26,24 @@ fun MainScreen() {
     val currentDestination = backStack.last()
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
+        modifier = Modifier.padding(0.dp),
         bottomBar = {
-            NavigationBar {
-                val items = listOf(
-                    Triple(Destination.Home, "Inicio", Icons.Default.Home),
-                    Triple(Destination.Statistics, "Estadísticas", Icons.Default.BarChart),
-                    Triple(Destination.Devices, "Dispositivos", Icons.Default.Devices),
-                    Triple(Destination.Settings, "Ajustes", Icons.Default.Settings)
-                )
-                items.forEach { (dest, label, icon) ->
-                    NavigationBarItem(
-                        selected = currentDestination == dest,
-                        onClick = {
-                            if (currentDestination != dest) {
-                                // Simple navigation: replace the top of the stack
-                                backStack.clear()
-                                backStack.add(dest)
-                            }
-                        },
-                        icon = { Icon(icon, contentDescription = label) },
-                        label = { Text(label) }
-                    )
+            GlassBottomBar(
+                currentDestination = currentDestination,
+                items = listOf(
+                    BottomBarItem(Destination.Home, "Home", R.drawable.ic_lucide_house),
+                    BottomBarItem(Destination.Statistics, "Statistics", R.drawable.ic_lucide_activity),
+                    BottomBarItem(Destination.Devices, "Devices", R.drawable.ic_lucide_layout_grid),
+                    BottomBarItem(Destination.Settings, "Settings", R.drawable.ic_lucide_settings),
+                ),
+                onItemClick = { destination ->
+                    if (currentDestination != destination) {
+                        backStack.clear()
+                        backStack.add(destination)
+                    }
                 }
-            }
+            )
         }
     ) { padding ->
         NavDisplay(

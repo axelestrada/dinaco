@@ -40,7 +40,8 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
-                .padding(horizontal = 28.dp, vertical = 40.dp)
+                .padding(start = 28.dp, end = 28.dp, top = 40.dp, bottom = 28.dp)
+                .navigationBarsPadding()
         ) {
             Column {
                 Spacer(modifier = Modifier.height(40.dp))
