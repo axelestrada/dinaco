@@ -17,28 +17,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.axelestrada.dinaco.R
-import com.axelestrada.dinaco.core.designsystem.components.FloatingToast
+import com.axelestrada.dinaco.core.common.snackbar.SnackbarManager
 import com.axelestrada.dinaco.core.designsystem.components.SurfaceButton
 import com.axelestrada.dinaco.core.designsystem.components.TermsAgreement
 import com.axelestrada.dinaco.core.designsystem.theme.Typography
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit) {
     var acceptedTerms by remember { mutableStateOf(false) }
-    var showToast by remember { mutableStateOf(false) }
+    var showError by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -81,9 +81,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 TermsAgreement(
                     checked = acceptedTerms, onCheckedChange = {
                         acceptedTerms = it
-                        showToast = false
+                        showError = false
 
-                    }, modifier = Modifier.padding(bottom = 18.dp), showError = showToast
+                    }, modifier = Modifier.padding(bottom = 18.dp), showError = showError
                 )
 
 
@@ -96,7 +96,10 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 ) {
 
                     if (!acceptedTerms) {
-                        showToast = true
+                        showError = true
+                        scope.launch {
+                            SnackbarManager.showMessage("Debes aceptar la política de privacidad")
+                        }
                         return@SurfaceButton
                     }
 
@@ -104,15 +107,5 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 }
             }
         }
-
-        FloatingToast(
-            message = "Debes aceptar la política de privacidad", visible = showToast, onDismiss = {
-                showToast = false
-            }, modifier = Modifier
-                .align(Alignment.TopCenter)
-                .zIndex(10f)
-        )
     }
-
-
 }
