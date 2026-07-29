@@ -10,7 +10,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.animation.doOnEnd
 import androidx.core.view.WindowCompat
-import com.axelestrada.dinaco.ui.theme.DinacoTheme
+import com.axelestrada.dinaco.core.designsystem.theme.DinacoTheme
+import com.axelestrada.dinaco.core.navigation.AppNavigation
 import java.time.Duration
 import java.time.Instant
 
