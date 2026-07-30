@@ -106,9 +106,9 @@ val Typography = Typography(
     // Badge / Mini - 9px
     labelSmall = TextStyle(
         fontFamily = interFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 9.sp,
-        lineHeight = 12.sp,
-        letterSpacing = 0.sp
+        fontWeight = FontWeight.Medium,
+        fontSize = 10.sp,
+        lineHeight = 15.sp,
+        letterSpacing = 0.3.sp
     )
 )
