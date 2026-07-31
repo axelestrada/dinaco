@@ -15,12 +15,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,8 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -58,9 +55,13 @@ fun HomeScreen() {
     var isSliderVisible by remember { mutableStateOf(true) }
     var isFabVisible by remember { mutableStateOf(false) }
 
-    val density = LocalDensity.current
-    val configuration = LocalConfiguration.current
-    val screenHeightPx = with(density) { configuration.screenHeightDp.dp.toPx() }
+    val screenHeightPx = LocalWindowInfo.current.containerSize.height.toFloat()
+
+    val color = when (tankPercentage) {
+        in 0.4f..1f -> MaterialTheme.colorScheme.primary
+        in 0.2f..0.4f -> MaterialTheme.colorScheme.tertiary
+        else -> MaterialTheme.colorScheme.error
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -84,7 +85,7 @@ fun HomeScreen() {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    StatusBadge(text = "Tinaco Principal")
+                    StatusBadge(text = "Tinaco Principal", badgeColor = color)
 
                     Spacer(modifier = Modifier.height(6.dp))
 
@@ -124,7 +125,7 @@ fun HomeScreen() {
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         StatCard(label = "VOLUMEN ACTUAL", value = "984", unit = "Lts")
-                        StatCard(label = "AUTONOMÍA", value = "~4", unit = "días")
+                        StatCard(label = "AUTONOMÍA", value = "4", unit = "días")
                     }
                 }
             }
@@ -160,31 +161,18 @@ fun HomeScreen() {
                     )
                     .padding(vertical = 12.dp, horizontal = 4.dp)
                     .width(220.dp)
-                    .height(48.dp), contentAlignment = Alignment.Center) {
+                    .height(48.dp),
+                contentAlignment = Alignment.Center) {
                 Slider(
                     value = tankPercentage,
                     onValueChange = { tankPercentage = it },
                     valueRange = 0f..1f,
-                    modifier = Modifier
-                        .width(180.dp) // El "ancho" se convierte en la altura al rotar
+                    modifier = Modifier.width(180.dp),
+                    colors = SliderDefaults.colors().copy(
+                        thumbColor = color,
+                        activeTrackColor = color
+                    )// El "ancho" se convierte en la altura al rotar
                 )
-            }
-        }
-
-        // Botón para volver a mostrar el slider si se ocultó
-        if (isFabVisible) {
-            FloatingActionButton(
-                onClick = {
-                    isSliderVisible = true
-                    isFabVisible = false
-                    sliderOffset = Offset(200f, 400f) // Reset position
-                },
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(24.dp),
-                containerColor = MaterialTheme.colorScheme.primary
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "Mostrar control")
             }
         }
     }

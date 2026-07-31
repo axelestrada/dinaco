@@ -62,7 +62,11 @@ fun WaterTankGauge(
 
     ) {
 
-    val color = MaterialTheme.colorScheme.primary
+    val color = when (percentage) {
+        in 0.4f..1f -> MaterialTheme.colorScheme.primary
+        in 0.2f..0.4f -> MaterialTheme.colorScheme.tertiary
+        else -> MaterialTheme.colorScheme.error
+    }
 
     val animatedPercentage by animateFloatAsState(
         targetValue = percentage.coerceIn(0f, 1f),
@@ -323,11 +327,13 @@ private fun GlassBadge(modifier: Modifier = Modifier, content: @Composable RowSc
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(50))
+            .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(50))
             .height(30.dp),
         contentAlignment = Alignment.Center
     ) {
         Box(
             modifier = Modifier
+                .padding(1.dp)
                 .clip(RoundedCornerShape(50))
                 .matchParentSize()
                 .glassBlur(blurRadius = 12.dp)
