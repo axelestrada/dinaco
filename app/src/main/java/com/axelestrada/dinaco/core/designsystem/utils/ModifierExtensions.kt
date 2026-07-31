@@ -1,7 +1,9 @@
-package com.axelestrada.dinaco.features.home.presentation.screen
+package com.axelestrada.dinaco.core.designsystem.utils
 
 import android.graphics.BlurMaskFilter
+import android.os.Build
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
@@ -10,6 +12,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/**
+ * Aplica un efecto de sombra/resplandor configurable.
+ */
 fun Modifier.glowShadow(
     color: Color,
     blurRadius: Dp = 40.dp,
@@ -22,7 +27,6 @@ fun Modifier.glowShadow(
             asFrameworkPaint().apply {
                 this.color = color.toArgb()
                 if (blurRadius.toPx() > 0) {
-                    // BlurMaskFilter.Blur.NORMAL extiende el brillo hacia afuera sin recortar
                     this.maskFilter = BlurMaskFilter(
                         blurRadius.toPx(),
                         BlurMaskFilter.Blur.NORMAL
@@ -31,7 +35,6 @@ fun Modifier.glowShadow(
             }
         }
 
-        // Calculamos la posición aplicando el offset y el spread
         val spreadPx = spread.toPx()
         val offsetYPx = offsetY.toPx()
 
@@ -59,4 +62,16 @@ fun Modifier.glowShadow(
             )
         }
     }
+}
+
+/**
+ * Aplica un efecto de glassmorphism con desenfoque de fondo.
+ * Nota: El desenfoque de fondo real (RenderEffect) requiere Android 12 (S) o superior.
+ */
+fun Modifier.glassBlur(
+    blurRadius: Dp = 10.dp
+) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    this.blur(blurRadius)
+} else {
+    this
 }

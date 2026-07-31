@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.axelestrada.dinaco.core.designsystem.theme.Typography
+import com.axelestrada.dinaco.core.designsystem.utils.glowShadow
 
 @Composable
 fun StatusBadge(
@@ -39,8 +40,14 @@ fun StatusBadge(
     ) {
         Box(
             modifier = Modifier
-                .clip(CircleShape)
                 .size(8.dp)
+                .glowShadow(
+                    color = badgeColor.copy(alpha = 0.2f),
+                    blurRadius = 2.dp,
+                    spread = (-3).dp,
+                    isCircle = true
+                )
+                .clip(CircleShape)
                 .background(badgeColor, CircleShape)
         )
 
