@@ -1,5 +1,6 @@
 package com.axelestrada.dinaco.features.home.presentation.screen
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.LinearEasing
@@ -59,10 +60,9 @@ fun WaterTankGauge(
     percentage: Float,
     volumeText: String = "250 L",
     statText: String = "-12% vs ayer",
+) {
 
-    ) {
-
-    val color = when (percentage) {
+    val targetColor = when (percentage) {
         in 0.4f..1f -> MaterialTheme.colorScheme.primary
         in 0.2f..0.4f -> MaterialTheme.colorScheme.tertiary
         else -> MaterialTheme.colorScheme.error
@@ -72,6 +72,12 @@ fun WaterTankGauge(
         targetValue = percentage.coerceIn(0f, 1f),
         animationSpec = tween(durationMillis = 600, easing = EaseOut),
         label = "waterLevelAnimation"
+    )
+
+    val color by animateColorAsState(
+        targetValue = targetColor,
+        animationSpec = tween(durationMillis = 600, easing = EaseOut),
+        label = "colorTransition"
     )
 
     val infiniteTransition = rememberInfiniteTransition(label = "waveTransition")
@@ -118,7 +124,7 @@ fun WaterTankGauge(
                 .border(1.dp, Color.White.copy(alpha = 0.1f), CircleShape)
                 .border(9.dp, MaterialTheme.colorScheme.background, CircleShape)
                 .glowShadow(
-                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                    color = color.copy(alpha = 0.1f),
                     blurRadius = 40.dp,
                     spread = (-10).dp,
                     isCircle = true

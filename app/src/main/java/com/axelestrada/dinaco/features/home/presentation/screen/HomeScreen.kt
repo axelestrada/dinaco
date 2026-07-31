@@ -1,5 +1,8 @@
 package com.axelestrada.dinaco.features.home.presentation.screen
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -57,11 +60,17 @@ fun HomeScreen() {
 
     val screenHeightPx = LocalWindowInfo.current.containerSize.height.toFloat()
 
-    val color = when (tankPercentage) {
+    val targetColor = when (tankPercentage) {
         in 0.4f..1f -> MaterialTheme.colorScheme.primary
         in 0.2f..0.4f -> MaterialTheme.colorScheme.tertiary
         else -> MaterialTheme.colorScheme.error
     }
+
+    val color by animateColorAsState(
+        targetValue = targetColor,
+        animationSpec = tween(durationMillis = 600, easing = EaseOut),
+        label = "colorTransition"
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
