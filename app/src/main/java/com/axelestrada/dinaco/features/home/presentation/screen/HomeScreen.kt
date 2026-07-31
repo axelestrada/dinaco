@@ -23,6 +23,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -53,6 +57,8 @@ fun HomeScreen() {
     val greeting = getCurrentGreeting()
     var tankPercentage by remember { mutableFloatStateOf(0.82f) }
 
+    val scrollState = rememberScrollState()
+
     // Estados para el Slider flotante
     var sliderOffset by remember { mutableStateOf(Offset(200f, 400f)) }
     var isSliderVisible by remember { mutableStateOf(true) }
@@ -73,68 +79,75 @@ fun HomeScreen() {
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
-        ) {
-            Header(
-                title = "Hola, Axel", subtitle = greeting, showNotifications = true
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
+        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            val constraints = this
             Column(
                 modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.SpaceBetween,
-                horizontalAlignment = Alignment.CenterHorizontally,
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .padding(24.dp),
             ) {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    StatusBadge(text = "Tinaco Principal", badgeColor = color)
-
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_lucide_clock_4),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(10.dp)
-                        )
-
-                        Spacer(modifier = Modifier.width(4.dp))
-
-                        Text(
-                            "hace 2 min",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = Typography.labelSmall
-                        )
-                    }
-                }
-
-                WaterTankGauge(
-                    percentage = tankPercentage
-                )
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
+                        .heightIn(min = constraints.maxHeight - 48.dp),
+                    verticalArrangement = Arrangement.SpaceBetween,
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(24.dp)
                     ) {
-                        StatCard(label = "VOLUMEN ACTUAL", value = "984", unit = "Lts")
-                        StatCard(label = "AUTONOMÍA", value = "4", unit = "días")
+                        Header(
+                            title = "Hola, Axel", subtitle = greeting, showNotifications = true
+                        )
+
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            StatusBadge(text = "Tinaco Principal", badgeColor = color)
+
+                            Spacer(modifier = Modifier.height(6.dp))
+
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_lucide_clock_4),
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(10.dp)
+                                )
+
+                                Spacer(modifier = Modifier.width(4.dp))
+
+                                Text(
+                                    "hace 2 min",
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    style = Typography.labelSmall
+                                )
+                            }
+                        }
+                    }
+
+                    WaterTankGauge(
+                        percentage = tankPercentage
+                    )
+
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            StatCard(label = "VOLUMEN ACTUAL", value = "984", unit = "Lts")
+                            StatCard(label = "AUTONOMÍA", value = "4", unit = "días")
+                        }
                     }
                 }
             }
