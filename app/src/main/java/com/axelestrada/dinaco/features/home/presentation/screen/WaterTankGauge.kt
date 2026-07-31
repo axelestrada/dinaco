@@ -53,7 +53,6 @@ import com.axelestrada.dinaco.core.designsystem.theme.interFamily
 import com.axelestrada.dinaco.core.designsystem.utils.glassBlur
 import com.axelestrada.dinaco.core.designsystem.utils.glowShadow
 
-
 @Composable
 fun WaterTankGauge(
     modifier: Modifier = Modifier,
@@ -71,7 +70,6 @@ fun WaterTankGauge(
         label = "waterLevelAnimation"
     )
 
-// 2. Animaciones infinitas de rotación para las dos olas
     val infiniteTransition = rememberInfiniteTransition(label = "waveTransition")
 
     val waveRotation1 by infiniteTransition.animateFloat(
@@ -81,7 +79,6 @@ fun WaterTankGauge(
         ), label = "waveRotation1"
     )
 
-    // 2. Animación de levitación para los GlassBadges (0px a -8px en 2s con Reverse -> 4s ciclo completo)
     val density = LocalDensity.current
     val floatOffsetPx = with(density) { (-8).dp.toPx() }
 
@@ -92,7 +89,6 @@ fun WaterTankGauge(
         ), label = "badgeLevitate1"
     )
 
-    // Desfasamos ligeramente el segundo badge para darle una sensación más fluida
     val badgeOffset2 by infiniteTransition.animateFloat(
         initialValue = floatOffsetPx, targetValue = 0f, animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 2000, easing = EaseInOut),
@@ -118,7 +114,7 @@ fun WaterTankGauge(
                 .border(1.dp, Color.White.copy(alpha = 0.1f), CircleShape)
                 .border(9.dp, MaterialTheme.colorScheme.background, CircleShape)
                 .glowShadow(
-                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
                     blurRadius = 40.dp,
                     spread = (-10).dp,
                     isCircle = true
@@ -127,7 +123,6 @@ fun WaterTankGauge(
                 .background(
                     color = MaterialTheme.colorScheme.surface, shape = CircleShape
                 )
-
                 .clip(CircleShape)
                 .drawBehind {
                     val strokeWidthPx = 2.dp.toPx()
@@ -136,8 +131,6 @@ fun WaterTankGauge(
                     val liquidHeight = containerSize * animatedPercentage
                     val waterLevelY = containerSize - liquidHeight
 
-
-                    // --- 1. DIBUJAR BASE DEL LÍQUIDO ---
                     drawRect(
                         color = color,
                         topLeft = Offset(0f, waterLevelY),
@@ -153,11 +146,8 @@ fun WaterTankGauge(
                         )
                     }
 
-                    // -------------------------------------------------------------
-                    // 2. MÁSCARA DE RECORTE (overflow: hidden estricto al área del agua)
-                    // -------------------------------------------------------------
                     withTransform({
-                        // Recortamos el Canvas para que SOLO sea dibujable el área del agua
+
                         clipRect(
                             left = 0f,
                             top = waterLevelY,
@@ -167,12 +157,9 @@ fun WaterTankGauge(
                     }) {
 
 
-                        // --- 2. DIBUJAR OLA DE ACENTO (.wave-accent CSS) ---
-                        // Se dibuja un RoundedRect más grande rotado que actúa como máscara negativa
                         val waveSize2 = containerSize * 2.1f
-                        val cornerRadius2 = waveSize2 * 0.38f // Simula border-radius: 38%
+                        val cornerRadius2 = waveSize2 * 0.38f
 
-                        // Mover y rotar la forma
                         withTransform({
                             translate(
                                 left = -containerSize * 0.55f,
@@ -184,15 +171,14 @@ fun WaterTankGauge(
                             )
                         }) {
                             drawRoundRect(
-                                color = Color(0x26FFFFFF), // Color de la ola acentuada
+                                color = Color(0x26FFFFFF),
                                 size = Size(waveSize2, waveSize2),
                                 cornerRadius = CornerRadius(cornerRadius2, cornerRadius2)
                             )
                         }
 
-                        // --- 3. DIBUJAR OLA PRINCIPAL (.wave CSS) ---
                         val waveSize1 = containerSize * 2.0f
-                        val cornerRadius1 = waveSize1 * 0.40f // Simula border-radius: 40%
+                        val cornerRadius1 = waveSize1 * 0.40f
 
                         withTransform({
                             translate(
@@ -268,16 +254,13 @@ fun WaterTankGauge(
             )
         }
 
-        // --- GLASS BADGE IZQUIERDO (Cruzando exactamente el borde central) ---
         val tankRadiusPx = with(density) { 125.dp.toPx() }
-        val outerBorderHalfPx = with(density) { 4.5.dp.toPx() }// Radio del tanque de 250.dp
+        val outerBorderHalfPx = with(density) { 4.5.dp.toPx() }
 
         GlassBadge(
             modifier = Modifier
                 .align(Alignment.Center)
                 .graphicsLayer {
-                    // Mueve el centro del badge hacia la izquierda por el radio del círculo
-                    // y contrarresta el 50% de su propio ancho para centrarlo horizontalmente sobre la línea
                     translationX = -(tankRadiusPx - outerBorderHalfPx)
                     translationY = badgeOffset1
                 }) {
@@ -311,7 +294,6 @@ fun WaterTankGauge(
             modifier = Modifier
                 .align(Alignment.Center)
                 .graphicsLayer {
-                    // Mueve el centro del badge hacia la derecha por el radio del círculo
                     translationX = (tankRadiusPx - outerBorderHalfPx)
                     translationY = badgeOffset2
                 }) {
@@ -334,8 +316,6 @@ fun WaterTankGauge(
         }
 
     }
-
-
 }
 
 @Composable
@@ -346,16 +326,16 @@ private fun GlassBadge(modifier: Modifier = Modifier, content: @Composable RowSc
             .height(30.dp),
         contentAlignment = Alignment.Center
     ) {
-        // CAPA DE FONDO: Blur y color de fondo
         Box(
             modifier = Modifier
+                .clip(RoundedCornerShape(50))
                 .matchParentSize()
                 .glassBlur(blurRadius = 12.dp)
-                .background(MaterialTheme.colorScheme.background.copy(alpha = 0.85f))
-                .border(1.dp, Color.White.copy(0.2f), RoundedCornerShape(50))
+                .background(
+                    MaterialTheme.colorScheme.background.copy(alpha = 0.85f), RoundedCornerShape(50)
+                )
         )
 
-        // CAPA DE CONTENIDO: Texto e iconos (Sin blur)
         Row(
             modifier = Modifier.padding(horizontal = 12.dp),
             verticalAlignment = Alignment.CenterVertically,

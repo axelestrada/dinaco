@@ -12,7 +12,7 @@ object ExtendedTypography {
         fontWeight = FontWeight.SemiBold,
         fontSize = 10.sp,
         lineHeight = 14.sp,
-        letterSpacing = 1.5.sp
+        letterSpacing = 1.sp
     )
 
     val MonoValue = TextStyle(

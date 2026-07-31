@@ -54,8 +54,7 @@ val Typography = Typography(
         fontFamily = interFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 24.sp,
-        lineHeight = 30.sp,
-        letterSpacing = (-0.5).sp
+        lineHeight = 30.sp
     ),
 
     // Subtitle - 20px
