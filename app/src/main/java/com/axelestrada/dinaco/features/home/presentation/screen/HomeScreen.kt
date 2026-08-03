@@ -7,26 +7,26 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -36,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
@@ -71,6 +72,18 @@ fun HomeScreen() {
         in 0.2f..0.4f -> MaterialTheme.colorScheme.tertiary
         else -> MaterialTheme.colorScheme.error
     }
+
+    val statColor = when (tankPercentage) {
+        in 0.4f..1f -> MaterialTheme.colorScheme.onBackground
+        in 0.2f..0.4f -> MaterialTheme.colorScheme.tertiary
+        else -> MaterialTheme.colorScheme.error
+    }
+
+    val animatedStatColor by animateColorAsState(
+        targetValue = statColor,
+        animationSpec = tween(durationMillis = 600, easing = EaseOut),
+        label = "statColorTransition"
+    )
 
     val color by animateColorAsState(
         targetValue = targetColor,
@@ -145,8 +158,18 @@ fun HomeScreen() {
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            StatCard(label = "VOLUMEN ACTUAL", value = "984", unit = "Lts")
-                            StatCard(label = "AUTONOMÍA", value = "4", unit = "días")
+                            StatCard(
+                                label = "VOLUMEN ACTUAL",
+                                value = "984",
+                                unit = "Lts",
+                                color = animatedStatColor
+                            )
+                            StatCard(
+                                label = "AUTONOMÍA",
+                                value = "4",
+                                unit = "días",
+                                color = animatedStatColor
+                            )
                         }
                     }
                 }
@@ -201,7 +224,7 @@ fun HomeScreen() {
 }
 
 @Composable
-fun StatCard(label: String, value: String, unit: String) {
+fun StatCard(label: String, value: String, unit: String, color: Color) {
     Column {
         Text(
             text = label,
@@ -213,7 +236,7 @@ fun StatCard(label: String, value: String, unit: String) {
 
         Text(
             style = Typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = color,
             text = buildAnnotatedString {
                 append(value)
 
