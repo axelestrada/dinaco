@@ -9,10 +9,7 @@ lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
 kotlin = "2.4.10"
 composeBom = "2026.06.01"
-compileSdk = "37"
-targetSdk = "37"
-androidx-core-splashscreen = "1.2.0"
-nav3Core = "1.1.4"
+nav3Core = "1.1.5"
 lifecycleViewmodelNav3 = "2.11.0"
 kotlinSerialization = "2.4.10"
 kotlinxSerializationCore = "1.11.0"
@@ -46,4 +43,4 @@ androidx-material3-adaptive-navigation3 = { group = "androidx.compose.material3.
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization"}
+jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }

@@ -7,6 +7,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.nativePaint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
@@ -24,7 +25,7 @@ fun Modifier.glowShadow(
 ) = this.drawBehind {
     drawIntoCanvas { canvas ->
         val paint = Paint().apply {
-            asFrameworkPaint().apply {
+            nativePaint.apply {
                 this.color = color.toArgb()
                 if (blurRadius.toPx() > 0) {
                     this.maskFilter = BlurMaskFilter(
@@ -38,13 +39,12 @@ fun Modifier.glowShadow(
         val spreadPx = spread.toPx()
         val offsetYPx = offsetY.toPx()
 
-        val left = spreadPx
         val top = offsetYPx + spreadPx
         val right = size.width - spreadPx
         val bottom = size.height + offsetYPx - spreadPx
 
         if (isCircle) {
-            val radius = (right - left) / 2f
+            val radius = (right - spreadPx) / 2f
             val centerX = size.width / 2f
             val centerY = (top + bottom) / 2f
             canvas.drawCircle(
@@ -54,7 +54,7 @@ fun Modifier.glowShadow(
             )
         } else {
             canvas.drawRect(
-                left = left,
+                left = spreadPx,
                 top = top,
                 right = right,
                 bottom = bottom,
